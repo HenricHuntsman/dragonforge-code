@@ -15,7 +15,7 @@ The catalog is a snapshot, not a complete copy of GitHub's website: issues, comm
 
 ## Historical release copies
 
-Each original release is copied under an `upstream-` tag pointing to its original source commit. It is named Historical OpenCode, does not become the latest DragonForge release, and retains upstream release notes and source links. Automatic source archives for those tags refer to original source trees.
+Each original release is copied under an `upstream-` tag. Where the original commit is present in DragonForge ancestry, the tag points to it; otherwise it points to the preservation snapshot. Exact original source tar/zip archives are attached to every historical release, and its original commit is recorded. It is named Historical OpenCode, does not become the latest DragonForge release, and retains upstream release notes and source links. Use the attached upstream-source archives: GitHub's automatic Source code links may refer to the preservation snapshot. The newest historical copy also includes upstream-history.bundle, containing all upstream branches and tags, including disconnected release history.
 
 The import checks the reviewed inventory against live upstream metadata, downloaded sizes, GitHub-provided SHA-256 digests and entries in checksums.txt when available. Every upload is verified against the destination's digest. Existing conflicting assets or tag targets stop the import. An interrupted release remains a draft until complete; a rerun reuses verified assets.
 

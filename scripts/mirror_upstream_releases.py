@@ -104,7 +104,7 @@ def upload_asset(release, path, digest, token):
         raise RuntimeError("Uploaded asset digest could not be verified: " + path.name)
 
 
-def mirror_release(original, token):
+def mirror_release(original, token, history_bundle=None):
     catalog_release = original
     live = request_json(f"/repos/{SOURCE}/releases/{original['id']}", token)
     inventory = lambda r: sorted((a['id'], a['name'], a['size']) for a in r['assets'])
@@ -119,11 +119,10 @@ def mirror_release(original, token):
     if ref is None:
         # Original commits must already exist through the imported source history.
         known = request_json(f"/repos/{DESTINATION}/git/commits/{commit}", token)
-        if known is None:
-            raise RuntimeError("Source commit missing in destination; import history first")
-        request_json(f"/repos/{DESTINATION}/git/refs", token, {"ref": "refs/tags/" + tag, "sha": commit})
-    elif ref["object"]["sha"] != commit:
-        raise RuntimeError("Archive tag points at a different commit; refusing to move it")
+        target = commit if known is not None else os.environ["ARCHIVE_BASE_SHA"]
+        request_json(f"/repos/{DESTINATION}/git/refs", token, {"ref": "refs/tags/" + tag, "sha": target})
+    elif ref["object"]["sha"] not in (commit, os.environ["ARCHIVE_BASE_SHA"]):
+        raise RuntimeError("Archive tag points at an unexpected commit; refusing to move it")
     release = request_json(f"/repos/{DESTINATION}/releases/tags/{tag}", token)
     if release and not release["draft"]:
         print("Already published historical copy:", tag, flush=True)
@@ -136,6 +135,9 @@ def mirror_release(original, token):
                  f"Original source commit: {commit}\n\n"
                  "These are preserved upstream binaries, not new DragonForge builds. "
                  "Original authorship and licence notices remain applicable. "
+                 "Use the attached upstream-source archives for the exact original source. "
+                 "The archive tag may point at the preservation snapshot if the historical commit is outside imported ancestry; "
+                 "GitHub's automatic Source code links may therefore differ. "
                  "See upstream-release-metadata.json for provenance.\n\n"
                  "---\n\n" + (original.get("body") or ""))
         release = request_json(f"/repos/{DESTINATION}/releases", token, {
@@ -154,6 +156,15 @@ def mirror_release(original, token):
             for path, _ in downloads:
                 if path.name in expected:
                     verify_digest(path, expected[path.name])
+        for suffix, kind in [("tar.gz", "tarball"), ("zip", "zipball")]:
+            path = directory / ("upstream-source-" + source_tag + "." + suffix)
+            url = f"https://github.com/{SOURCE}/archive/{commit}.{suffix}"
+            with urllib.request.urlopen(url, timeout=180) as response, path.open("wb") as output:
+                while chunk := response.read(1024 * 1024):
+                    output.write(chunk)
+            downloads.append((path, verify_digest(path)))
+        if history_bundle is not None:
+            downloads.append((history_bundle, verify_digest(history_bundle)))
         metadata = directory / "upstream-release-metadata.json"
         metadata.write_text(json.dumps({"source_repository": SOURCE, "source_commit": commit,
                                        "original_release": catalog_release,
@@ -170,6 +181,7 @@ def mirror_release(original, token):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--catalog", type=Path, default=Path("docs/upstream/catalog.json"))
+    parser.add_argument("--history-bundle", type=Path)
     parser.add_argument("--publish", action="store_true", help="Mirror verified assets into historical destination releases")
     args = parser.parse_args()
     catalog = json.loads(args.catalog.read_text())
@@ -189,7 +201,8 @@ def main():
     token = os.environ["GH_TOKEN"]
     for release in sorted(releases, key=lambda r: r["published_at"] or ""):
         if not release["draft"]:
-            mirror_release(release, token)
+            bundle = args.history_bundle if release["tag_name"] == releases[0]["tag_name"] else None
+            mirror_release(release, token, bundle)
 
 
 if __name__ == "__main__":

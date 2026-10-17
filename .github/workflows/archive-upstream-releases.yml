@@ -27,7 +27,13 @@ jobs:
         run: python3 tests/test_upstream_archive.py
       - name: Verify catalog
         run: python3 scripts/mirror_upstream_releases.py
+      - name: Preserve all upstream branch and tag objects
+        run: |
+          git clone --mirror https://github.com/opencode-ai/opencode.git "$RUNNER_TEMP/upstream.git"
+          git -C "$RUNNER_TEMP/upstream.git" bundle create "$RUNNER_TEMP/upstream-history.bundle" --all
+          git -C "$RUNNER_TEMP/upstream.git" bundle verify "$RUNNER_TEMP/upstream-history.bundle"
       - name: Preserve historical releases and verify uploaded assets
         env:
           GH_TOKEN: ${{ github.token }}
-        run: python3 scripts/mirror_upstream_releases.py --publish
+          ARCHIVE_BASE_SHA: 96cada506a8484deee9145209beb97877102ee08
+        run: python3 scripts/mirror_upstream_releases.py --publish --history-bundle "$RUNNER_TEMP/upstream-history.bundle"
