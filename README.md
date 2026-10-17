@@ -1,5 +1,9 @@
 # DragonForge Code
 
+🎈 **[Welcome Back, OpenCode!](WELCOME_BACK.md)** — celebrating the historic v0.0.56 milestone and the independent DragonForge revival.
+
+📚 **[Documentation & Wiki Home](docs/WIKI_HOME.md)** — feature inventory, history, and development roadmap.
+
 **Independent, local-first Go coding agent** based on the MIT-licensed OpenCode Go project
 and the OpenCode Revival work maintained by HenricHuntsman.
 
