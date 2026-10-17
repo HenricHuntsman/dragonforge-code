@@ -13,11 +13,11 @@ import (
 	"github.com/openai/openai-go"
 	"github.com/openai/openai-go/option"
 	"github.com/openai/openai-go/shared"
-	"github.com/opencode-ai/opencode/internal/config"
-	"github.com/opencode-ai/opencode/internal/llm/models"
-	toolsPkg "github.com/opencode-ai/opencode/internal/llm/tools"
-	"github.com/opencode-ai/opencode/internal/logging"
-	"github.com/opencode-ai/opencode/internal/message"
+	"github.com/HenricHuntsman/dragonforge-code/internal/config"
+	"github.com/HenricHuntsman/dragonforge-code/internal/llm/models"
+	toolsPkg "github.com/HenricHuntsman/dragonforge-code/internal/llm/tools"
+	"github.com/HenricHuntsman/dragonforge-code/internal/logging"
+	"github.com/HenricHuntsman/dragonforge-code/internal/message"
 )
 
 type copilotOptions struct {

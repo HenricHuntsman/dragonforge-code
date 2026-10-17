@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/opencode-ai/opencode/internal/skills"
+	"github.com/HenricHuntsman/dragonforge-code/internal/skills"
 )
 
 const SkillToolName = "skill"

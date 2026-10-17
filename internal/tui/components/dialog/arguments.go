@@ -7,9 +7,9 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 
-	"github.com/opencode-ai/opencode/internal/tui/styles"
-	"github.com/opencode-ai/opencode/internal/tui/theme"
-	"github.com/opencode-ai/opencode/internal/tui/util"
+	"github.com/HenricHuntsman/dragonforge-code/internal/tui/styles"
+	"github.com/HenricHuntsman/dragonforge-code/internal/tui/theme"
+	"github.com/HenricHuntsman/dragonforge-code/internal/tui/util"
 )
 
 type argumentsDialogKeyMap struct {

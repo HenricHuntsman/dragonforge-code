@@ -8,16 +8,16 @@ import (
 	"sync"
 	"time"
 
-	"github.com/opencode-ai/opencode/internal/config"
-	"github.com/opencode-ai/opencode/internal/llm/models"
-	"github.com/opencode-ai/opencode/internal/llm/prompt"
-	"github.com/opencode-ai/opencode/internal/llm/provider"
-	"github.com/opencode-ai/opencode/internal/llm/tools"
-	"github.com/opencode-ai/opencode/internal/logging"
-	"github.com/opencode-ai/opencode/internal/message"
-	"github.com/opencode-ai/opencode/internal/permission"
-	"github.com/opencode-ai/opencode/internal/pubsub"
-	"github.com/opencode-ai/opencode/internal/session"
+	"github.com/HenricHuntsman/dragonforge-code/internal/config"
+	"github.com/HenricHuntsman/dragonforge-code/internal/llm/models"
+	"github.com/HenricHuntsman/dragonforge-code/internal/llm/prompt"
+	"github.com/HenricHuntsman/dragonforge-code/internal/llm/provider"
+	"github.com/HenricHuntsman/dragonforge-code/internal/llm/tools"
+	"github.com/HenricHuntsman/dragonforge-code/internal/logging"
+	"github.com/HenricHuntsman/dragonforge-code/internal/message"
+	"github.com/HenricHuntsman/dragonforge-code/internal/permission"
+	"github.com/HenricHuntsman/dragonforge-code/internal/pubsub"
+	"github.com/HenricHuntsman/dragonforge-code/internal/session"
 )
 
 // Common errors

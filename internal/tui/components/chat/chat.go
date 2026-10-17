@@ -6,12 +6,12 @@ import (
 
 	"github.com/charmbracelet/lipgloss"
 	"github.com/charmbracelet/x/ansi"
-	"github.com/opencode-ai/opencode/internal/config"
-	"github.com/opencode-ai/opencode/internal/message"
-	"github.com/opencode-ai/opencode/internal/session"
-	"github.com/opencode-ai/opencode/internal/tui/styles"
-	"github.com/opencode-ai/opencode/internal/tui/theme"
-	"github.com/opencode-ai/opencode/internal/version"
+	"github.com/HenricHuntsman/dragonforge-code/internal/config"
+	"github.com/HenricHuntsman/dragonforge-code/internal/message"
+	"github.com/HenricHuntsman/dragonforge-code/internal/session"
+	"github.com/HenricHuntsman/dragonforge-code/internal/tui/styles"
+	"github.com/HenricHuntsman/dragonforge-code/internal/tui/theme"
+	"github.com/HenricHuntsman/dragonforge-code/internal/version"
 )
 
 type SendMsg struct {
@@ -120,7 +120,7 @@ func logo(width int) string {
 }
 
 func repo(width int) string {
-	repo := "https://github.com/opencode-ai/opencode"
+	repo := "https://github.com/HenricHuntsman/dragonforge-code"
 	t := theme.CurrentTheme()
 
 	return styles.BaseStyle().

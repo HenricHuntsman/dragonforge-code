@@ -7,16 +7,16 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/opencode-ai/opencode/internal/config"
-	"github.com/opencode-ai/opencode/internal/llm/models"
-	"github.com/opencode-ai/opencode/internal/lsp"
-	"github.com/opencode-ai/opencode/internal/lsp/protocol"
-	"github.com/opencode-ai/opencode/internal/pubsub"
-	"github.com/opencode-ai/opencode/internal/session"
-	"github.com/opencode-ai/opencode/internal/tui/components/chat"
-	"github.com/opencode-ai/opencode/internal/tui/styles"
-	"github.com/opencode-ai/opencode/internal/tui/theme"
-	"github.com/opencode-ai/opencode/internal/tui/util"
+	"github.com/HenricHuntsman/dragonforge-code/internal/config"
+	"github.com/HenricHuntsman/dragonforge-code/internal/llm/models"
+	"github.com/HenricHuntsman/dragonforge-code/internal/lsp"
+	"github.com/HenricHuntsman/dragonforge-code/internal/lsp/protocol"
+	"github.com/HenricHuntsman/dragonforge-code/internal/pubsub"
+	"github.com/HenricHuntsman/dragonforge-code/internal/session"
+	"github.com/HenricHuntsman/dragonforge-code/internal/tui/components/chat"
+	"github.com/HenricHuntsman/dragonforge-code/internal/tui/styles"
+	"github.com/HenricHuntsman/dragonforge-code/internal/tui/theme"
+	"github.com/HenricHuntsman/dragonforge-code/internal/tui/util"
 )
 
 type StatusCmp interface {

@@ -12,7 +12,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/opencode-ai/opencode/internal/config"
+	"github.com/HenricHuntsman/dragonforge-code/internal/config"
 )
 
 type PersistentShell struct {

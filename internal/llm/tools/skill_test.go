@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/opencode-ai/opencode/internal/skills"
+	"github.com/HenricHuntsman/dragonforge-code/internal/skills"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
