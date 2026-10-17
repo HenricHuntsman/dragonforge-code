@@ -31,3 +31,7 @@ endpoint is set through `LOCAL_ENDPOINT=http://127.0.0.1:11434/v1`.
 Nintendo 64 and TraceForge are isolated specialist workspaces, not merged source
 projects. The TraceForge reference workspace must not modify the original project
 without permission.
+
+## Historical upstream preservation
+
+The [historical OpenCode archive](docs/upstream/README.md) catalogs the original releases, assets, branches, tags and open pull requests. Historical release copies are labelled separately from DragonForge builds. Check the archive workflow result for transfer status.
