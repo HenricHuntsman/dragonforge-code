@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/opencode-ai/opencode/internal/llm/models"
-	"github.com/opencode-ai/opencode/internal/llm/tools"
-	"github.com/opencode-ai/opencode/internal/message"
+	"github.com/HenricHuntsman/dragonforge-code/internal/llm/models"
+	"github.com/HenricHuntsman/dragonforge-code/internal/llm/tools"
+	"github.com/HenricHuntsman/dragonforge-code/internal/message"
 )
 
 type EventType string

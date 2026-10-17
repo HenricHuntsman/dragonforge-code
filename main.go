@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/opencode-ai/opencode/cmd"
-	"github.com/opencode-ai/opencode/internal/logging"
+	"github.com/HenricHuntsman/dragonforge-code/cmd"
+	"github.com/HenricHuntsman/dragonforge-code/internal/logging"
 )
 
 func main() {

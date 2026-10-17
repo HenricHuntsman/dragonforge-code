@@ -5,11 +5,11 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/opencode-ai/opencode/internal/config"
-	"github.com/opencode-ai/opencode/internal/llm/tools"
-	"github.com/opencode-ai/opencode/internal/logging"
-	"github.com/opencode-ai/opencode/internal/permission"
-	"github.com/opencode-ai/opencode/internal/version"
+	"github.com/HenricHuntsman/dragonforge-code/internal/config"
+	"github.com/HenricHuntsman/dragonforge-code/internal/llm/tools"
+	"github.com/HenricHuntsman/dragonforge-code/internal/logging"
+	"github.com/HenricHuntsman/dragonforge-code/internal/permission"
+	"github.com/HenricHuntsman/dragonforge-code/internal/version"
 
 	"github.com/mark3labs/mcp-go/client"
 	"github.com/mark3labs/mcp-go/mcp"

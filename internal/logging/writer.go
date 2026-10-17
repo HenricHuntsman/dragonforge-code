@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/go-logfmt/logfmt"
-	"github.com/opencode-ai/opencode/internal/pubsub"
+	"github.com/HenricHuntsman/dragonforge-code/internal/pubsub"
 )
 
 const (

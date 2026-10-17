@@ -5,11 +5,11 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/opencode-ai/opencode/internal/config"
-	"github.com/opencode-ai/opencode/internal/llm/tools"
-	"github.com/opencode-ai/opencode/internal/lsp"
-	"github.com/opencode-ai/opencode/internal/message"
-	"github.com/opencode-ai/opencode/internal/session"
+	"github.com/HenricHuntsman/dragonforge-code/internal/config"
+	"github.com/HenricHuntsman/dragonforge-code/internal/llm/tools"
+	"github.com/HenricHuntsman/dragonforge-code/internal/lsp"
+	"github.com/HenricHuntsman/dragonforge-code/internal/message"
+	"github.com/HenricHuntsman/dragonforge-code/internal/session"
 )
 
 type agentTool struct {

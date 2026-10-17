@@ -10,14 +10,14 @@ import (
 	"github.com/charmbracelet/bubbles/viewport"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/opencode-ai/opencode/internal/app"
-	"github.com/opencode-ai/opencode/internal/message"
-	"github.com/opencode-ai/opencode/internal/pubsub"
-	"github.com/opencode-ai/opencode/internal/session"
-	"github.com/opencode-ai/opencode/internal/tui/components/dialog"
-	"github.com/opencode-ai/opencode/internal/tui/styles"
-	"github.com/opencode-ai/opencode/internal/tui/theme"
-	"github.com/opencode-ai/opencode/internal/tui/util"
+	"github.com/HenricHuntsman/dragonforge-code/internal/app"
+	"github.com/HenricHuntsman/dragonforge-code/internal/message"
+	"github.com/HenricHuntsman/dragonforge-code/internal/pubsub"
+	"github.com/HenricHuntsman/dragonforge-code/internal/session"
+	"github.com/HenricHuntsman/dragonforge-code/internal/tui/components/dialog"
+	"github.com/HenricHuntsman/dragonforge-code/internal/tui/styles"
+	"github.com/HenricHuntsman/dragonforge-code/internal/tui/theme"
+	"github.com/HenricHuntsman/dragonforge-code/internal/tui/util"
 )
 
 type cacheItem struct {

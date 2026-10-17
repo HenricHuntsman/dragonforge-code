@@ -8,9 +8,9 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/opencode-ai/opencode/internal/config"
-	"github.com/opencode-ai/opencode/internal/llm/models"
-	"github.com/opencode-ai/opencode/internal/llm/tools"
+	"github.com/HenricHuntsman/dragonforge-code/internal/config"
+	"github.com/HenricHuntsman/dragonforge-code/internal/llm/models"
+	"github.com/HenricHuntsman/dragonforge-code/internal/llm/tools"
 )
 
 func CoderPrompt(provider models.ModelProvider) string {

@@ -14,14 +14,14 @@ import (
 	"github.com/charmbracelet/bubbles/viewport"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/opencode-ai/opencode/internal/app"
-	"github.com/opencode-ai/opencode/internal/config"
-	"github.com/opencode-ai/opencode/internal/logging"
-	"github.com/opencode-ai/opencode/internal/message"
-	"github.com/opencode-ai/opencode/internal/tui/image"
-	"github.com/opencode-ai/opencode/internal/tui/styles"
-	"github.com/opencode-ai/opencode/internal/tui/theme"
-	"github.com/opencode-ai/opencode/internal/tui/util"
+	"github.com/HenricHuntsman/dragonforge-code/internal/app"
+	"github.com/HenricHuntsman/dragonforge-code/internal/config"
+	"github.com/HenricHuntsman/dragonforge-code/internal/logging"
+	"github.com/HenricHuntsman/dragonforge-code/internal/message"
+	"github.com/HenricHuntsman/dragonforge-code/internal/tui/image"
+	"github.com/HenricHuntsman/dragonforge-code/internal/tui/styles"
+	"github.com/HenricHuntsman/dragonforge-code/internal/tui/theme"
+	"github.com/HenricHuntsman/dragonforge-code/internal/tui/util"
 )
 
 const (
