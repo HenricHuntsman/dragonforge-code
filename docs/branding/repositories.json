@@ -1,19 +1,13 @@
 {
   "schema": 1,
-  "source": "DragonForge repository icon family (2026-10-18)",
-  "notes": "Icon designs are concepts; not a claim of build or release readiness. Private repositories remain private.",
+  "source": "DragonForge public repository icon family (2026-10-18)",
+  "notes": "Only public repository names are listed in this public manifest. Private repo icon PRs are maintained only in those private repos. This is a branding proposal, not proof of feature completion.",
   "repositories": [
     {
       "repository": "HenricHuntsman",
       "group": "Identity",
       "accent": "#ff8a32",
       "badge": "HK"
-    },
-    {
-      "repository": "luna-levdeling-guide-",
-      "group": "Creative",
-      "accent": "#f26ea6",
-      "badge": "L"
     },
     {
       "repository": "LisaAI-DatingApp",
@@ -112,24 +106,6 @@
       "badge": "NV"
     },
     {
-      "repository": "Test-New-",
-      "group": "Experiments",
-      "accent": "#9aaec4",
-      "badge": "T1"
-    },
-    {
-      "repository": "nEW-tEST",
-      "group": "Experiments",
-      "accent": "#9aaec4",
-      "badge": "T2"
-    },
-    {
-      "repository": "Henric-Programming",
-      "group": "Coding",
-      "accent": "#19b6f4",
-      "badge": "HP"
-    },
-    {
       "repository": "gemini-cli",
       "group": "Coding",
       "accent": "#19b6f4",
@@ -146,12 +122,6 @@
       "group": "Coding",
       "accent": "#19b6f4",
       "badge": "CT"
-    },
-    {
-      "repository": "opencode-local",
-      "group": "Coding",
-      "accent": "#19b6f4",
-      "badge": "OL"
     },
     {
       "repository": "mini-AGI",
@@ -206,12 +176,6 @@
       "group": "Reverse Engineering",
       "accent": "#30d1d5",
       "badge": "REA"
-    },
-    {
-      "repository": "TraceForge",
-      "group": "Reverse Engineering",
-      "accent": "#30d1d5",
-      "badge": "TF"
     },
     {
       "repository": "opencode",
