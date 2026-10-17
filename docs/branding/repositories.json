@@ -1,0 +1,193 @@
+{
+  "schema": 1,
+  "source": "DragonForge public repository icon family (2026-10-18)",
+  "notes": "Only public repository names are listed in this public manifest. Private repo icon PRs are maintained only in those private repos. This is a branding proposal, not proof of feature completion.",
+  "repositories": [
+    {
+      "repository": "HenricHuntsman",
+      "group": "Identity",
+      "accent": "#ff8a32",
+      "badge": "HK"
+    },
+    {
+      "repository": "LisaAI-DatingApp",
+      "group": "Apps",
+      "accent": "#f06aaf",
+      "badge": "AI"
+    },
+    {
+      "repository": "azeroth-pilot-reloaded",
+      "group": "Games",
+      "accent": "#edae47",
+      "badge": "AZ"
+    },
+    {
+      "repository": "TrinityCore",
+      "group": "Games",
+      "accent": "#e9ac46",
+      "badge": "TC"
+    },
+    {
+      "repository": "QuestMaster-Pro",
+      "group": "Games",
+      "accent": "#e9ac46",
+      "badge": "QM"
+    },
+    {
+      "repository": "book-publish-forge",
+      "group": "Creative",
+      "accent": "#f071b6",
+      "badge": "BK"
+    },
+    {
+      "repository": "QuestMasterPro",
+      "group": "Games",
+      "accent": "#e9ac46",
+      "badge": "QP"
+    },
+    {
+      "repository": "Kimi-K2",
+      "group": "AI",
+      "accent": "#ad7eff",
+      "badge": "K2"
+    },
+    {
+      "repository": "-https-SpidermanTotro.github.io-nebula-ultimate-",
+      "group": "Web",
+      "accent": "#20c4a8",
+      "badge": "NU"
+    },
+    {
+      "repository": "NebulaUltimate",
+      "group": "Web",
+      "accent": "#20c4a8",
+      "badge": "NB"
+    },
+    {
+      "repository": "AgentFoundry-instantly",
+      "group": "AI",
+      "accent": "#ad7eff",
+      "badge": "AF"
+    },
+    {
+      "repository": "https-github.com-SpidermanTotro-genspark-os",
+      "group": "Infrastructure",
+      "accent": "#7795c5",
+      "badge": "OS"
+    },
+    {
+      "repository": "AgentFoundry-TrinityCore-Studio",
+      "group": "AI",
+      "accent": "#ad7eff",
+      "badge": "AT"
+    },
+    {
+      "repository": "Trinity-Studio-Architecture",
+      "group": "Games",
+      "accent": "#e9ac46",
+      "badge": "TS"
+    },
+    {
+      "repository": "repo-manager-ultimate",
+      "group": "Infrastructure",
+      "accent": "#7696c8",
+      "badge": "RM"
+    },
+    {
+      "repository": "codex",
+      "group": "Coding",
+      "accent": "#19b6f4",
+      "badge": "<>"
+    },
+    {
+      "repository": "nvm",
+      "group": "Infrastructure",
+      "accent": "#7696c8",
+      "badge": "NV"
+    },
+    {
+      "repository": "gemini-cli",
+      "group": "Coding",
+      "accent": "#19b6f4",
+      "badge": "GM"
+    },
+    {
+      "repository": "Vitruvian",
+      "group": "Research",
+      "accent": "#a879f3",
+      "badge": "VT"
+    },
+    {
+      "repository": "continue",
+      "group": "Coding",
+      "accent": "#19b6f4",
+      "badge": "CT"
+    },
+    {
+      "repository": "mini-AGI",
+      "group": "AI",
+      "accent": "#ad7eff",
+      "badge": "AGI"
+    },
+    {
+      "repository": "LLM4Decompile",
+      "group": "Reverse Engineering",
+      "accent": "#30d1d5",
+      "badge": "RE"
+    },
+    {
+      "repository": "rabbit-foundry",
+      "group": "AI",
+      "accent": "#ad7eff",
+      "badge": "RF"
+    },
+    {
+      "repository": "nxdumptool",
+      "group": "Console Tools",
+      "accent": "#4ad59c",
+      "badge": "NX"
+    },
+    {
+      "repository": "kilocode",
+      "group": "Coding",
+      "accent": "#19b6f4",
+      "badge": "KC"
+    },
+    {
+      "repository": "4NXCI",
+      "group": "Console Tools",
+      "accent": "#4ad59c",
+      "badge": "4N"
+    },
+    {
+      "repository": "artcraft",
+      "group": "Creative",
+      "accent": "#f071b6",
+      "badge": "ART"
+    },
+    {
+      "repository": "wordcraft",
+      "group": "Creative",
+      "accent": "#f071b6",
+      "badge": "WR"
+    },
+    {
+      "repository": "rea",
+      "group": "Reverse Engineering",
+      "accent": "#30d1d5",
+      "badge": "REA"
+    },
+    {
+      "repository": "opencode",
+      "group": "Coding",
+      "accent": "#19b6f4",
+      "badge": "OC"
+    },
+    {
+      "repository": "dragonforge-code",
+      "group": "Coding",
+      "accent": "#ff7c20",
+      "badge": "DF"
+    }
+  ]
+}
