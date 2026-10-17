@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"strings"
 
 	"github.com/HenricHuntsman/dragonforge-code/internal/config"
 	"github.com/HenricHuntsman/dragonforge-code/internal/llm/tools"
@@ -45,6 +46,17 @@ func (b *mcpTool) Info() tools.ToolInfo {
 	}
 }
 
+// parseMCPArguments adapts empty model tool-call input to the JSON object
+// expected by MCP. Non-empty malformed input continues to return an error.
+func parseMCPArguments(input string) (map[string]any, error) {
+	if strings.TrimSpace(input) == "" {
+		input = "{}"
+	}
+	var args map[string]any
+	err := json.Unmarshal([]byte(input), &args)
+	return args, err
+}
+
 func runTool(ctx context.Context, c MCPClient, toolName string, input string) (tools.ToolResponse, error) {
 	defer c.Close()
 	initRequest := mcp.InitializeRequest{}
@@ -61,8 +73,8 @@ func runTool(ctx context.Context, c MCPClient, toolName string, input string) (t
 
 	toolRequest := mcp.CallToolRequest{}
 	toolRequest.Params.Name = toolName
-	var args map[string]any
-	if err = json.Unmarshal([]byte(input), &args); err != nil {
+	args, err := parseMCPArguments(input)
+	if err != nil {
 		return tools.NewTextErrorResponse(fmt.Sprintf("error parsing parameters: %s", err)), nil
 	}
 	toolRequest.Params.Arguments = args
