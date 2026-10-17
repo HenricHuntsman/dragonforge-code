@@ -1,0 +1,112 @@
+name: One-time DragonForge module rename
+
+on:
+  push:
+    branches: [feat/dragonforge-module-migration]
+
+permissions:
+  contents: write
+
+jobs:
+  rename-and-test:
+    if: github.repository == 'HenricHuntsman/dragonforge-code'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Rename Go module and preserve prior documentation
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f LICENSE
+          test -f go.mod
+          python3 - <<'PY'
+          from pathlib import Path
+          import subprocess
+          old="github.com/opencode-ai/opencode"
+          new="github.com/HenricHuntsman/dragonforge-code"
+          for entry in subprocess.check_output(["git","ls-files","-z"]).split(b"\0"):
+              if not entry:
+                  continue
+              p=Path(entry.decode())
+              if p.name != "go.mod" and p.suffix != ".go":
+                  continue
+              t=p.read_text(encoding="utf-8")
+              if old in t:
+                  p.write_text(t.replace(old,new),encoding="utf-8")
+          assert Path("go.mod").read_text().startswith("module "+new+"\n")
+          Path("docs").mkdir(exist_ok=True)
+          Path("docs/OPENCODE-REVIVAL-README.md").write_text(Path("README.md").read_text(encoding="utf-8"),encoding="utf-8")
+          Path("README.md").write_text("""# DragonForge Code
+
+          **Independent, local-first Go coding agent** based on the MIT-licensed OpenCode Go project
+          and the OpenCode Revival work maintained by HenricHuntsman.
+
+          This repository is standalone, not a GitHub fork. Its commit ancestry preserves the
+          OpenCode Revival and original OpenCode project histories.
+
+          ## Source and attribution
+
+          Original copyright and redistribution conditions are preserved in [LICENSE](LICENSE).
+          The previous project README is preserved at [docs/OPENCODE-REVIVAL-README.md](docs/OPENCODE-REVIVAL-README.md).
+
+          ## Build
+
+          Requires Go 1.24 or newer.
+
+          ```bash
+          go mod verify
+          go vet ./...
+          go test ./... -count=1
+          go build -o dragonforge .
+          ./dragonforge --version
+          ```
+
+          The first migration renames the Go module and documentation. The executable,
+          interface strings, installation and release configurations may still refer to
+          OpenCode until updated separately. Interactive coding is supported; local Ollama
+          endpoint is set through `LOCAL_ENDPOINT=http://127.0.0.1:11434/v1`.
+
+          Nintendo 64 and TraceForge are isolated specialist workspaces, not merged source
+          projects. The TraceForge reference workspace must not modify the original project
+          without permission.
+          """, encoding="utf-8")
+          PY
+          git add README.md docs/OPENCODE-REVIVAL-README.md go.mod
+          git add -- '*.go'
+          git -c user.name='github-actions[bot]' \
+              -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+              commit -m 'Rename independent DragonForge Go module and document ancestry'
+
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Verify renamed Go source
+        shell: bash
+        run: |
+          set -euo pipefail
+          go mod verify
+          go vet ./...
+          go test ./... -count=1
+          go build ./...
+          go build -o "$RUNNER_TEMP/dragonforge" .
+          "$RUNNER_TEMP/dragonforge" --version
+
+      - name: Save compiled Linux binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: dragonforge-linux-amd64-module-build
+          path: ${{ runner.temp }}/dragonforge
+          if-no-files-found: error
+
+      - name: Publish verified source to feature branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(sed -n '1p' go.mod)" = 'module github.com/HenricHuntsman/dragonforge-code'
+          git push origin HEAD:feat/dragonforge-module-migration
