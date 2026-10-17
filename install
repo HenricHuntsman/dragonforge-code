@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Install builds published by this fork. No shell profile changes are made.
+repository=HenricHuntsman/opencode
+install_dir=${OPENCODE_INSTALL_DIR:-"$HOME/.opencode/bin"}
+requested_version=${VERSION:-}
+
+for dependency in curl tar mktemp install; do
+    command -v "$dependency" >/dev/null 2>&1 || {
+        printf 'Required command not found: %s\n' "$dependency" >&2
+        exit 1
+    }
+done
+
+os=$(uname -s)
+arch=$(uname -m)
+case "$os" in
+    Linux) os=linux ;;
+    Darwin) os=mac ;;
+    *) printf 'Unsupported operating system: %s\n' "$os" >&2; exit 1 ;;
+esac
+case "$arch" in
+    x86_64|amd64) arch=x86_64 ;;
+    arm64|aarch64) arch=arm64 ;;
+    *) printf 'Unsupported architecture: %s\n' "$arch" >&2; exit 1 ;;
+esac
+
+if [[ -z "$requested_version" ]]; then
+    metadata=$(curl --fail --silent --show-error --location \
+        "https://api.github.com/repos/$repository/releases/latest") || {
+        printf 'No published fork release could be retrieved. Build from source instead.\n' >&2
+        exit 1
+    }
+    requested_version=$(printf '%s\n' "$metadata" | sed -n 's/.*"tag_name"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p')
+fi
+requested_version=${requested_version#v}
+if [[ ! "$requested_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.-][A-Za-z0-9.-]+)?$ ]]; then
+    printf 'Invalid or missing release version: %s\n' "$requested_version" >&2
+    exit 1
+fi
+
+filename="opencode-$os-$arch.tar.gz"
+base_url="https://github.com/$repository/releases/download/v$requested_version"
+temporary_dir=$(mktemp -d)
+trap 'rm -rf -- "$temporary_dir"' EXIT
+
+printf 'Downloading OpenCode %s for %s/%s\n' "$requested_version" "$os" "$arch"
+curl --fail --silent --show-error --location "$base_url/$filename" -o "$temporary_dir/$filename"
+curl --fail --silent --show-error --location "$base_url/checksums.txt" -o "$temporary_dir/checksums.txt"
+
+expected=$(awk -v file="$filename" '$2 == file || $2 == "*" file {print $1}' "$temporary_dir/checksums.txt")
+if [[ ! "$expected" =~ ^[a-fA-F0-9]{64}$ ]]; then
+    printf 'Missing or ambiguous checksum for %s\n' "$filename" >&2
+    exit 1
+fi
+if command -v sha256sum >/dev/null 2>&1; then
+    actual=$(sha256sum "$temporary_dir/$filename")
+elif command -v shasum >/dev/null 2>&1; then
+    actual=$(shasum -a 256 "$temporary_dir/$filename")
+else
+    printf 'Checksum verification requires sha256sum or shasum.\n' >&2
+    exit 1
+fi
+actual=${actual%% *}
+expected=$(printf '%s' "$expected" | tr '[:upper:]' '[:lower:]')
+if [[ "$actual" != "$expected" ]]; then
+    printf 'Checksum verification failed; existing installation was not changed.\n' >&2
+    exit 1
+fi
+
+tar -xzf "$temporary_dir/$filename" -C "$temporary_dir" opencode
+[[ -f "$temporary_dir/opencode" && ! -L "$temporary_dir/opencode" ]] || {
+    printf 'Release archive does not contain a regular opencode binary.\n' >&2
+    exit 1
+}
+mkdir -p "$install_dir"
+install -m 755 "$temporary_dir/opencode" "$install_dir/opencode"
+printf 'Installed %s/opencode\n' "$install_dir"
+printf 'Add this directory to PATH if needed: %s\n' "$install_dir"
