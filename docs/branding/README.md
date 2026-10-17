@@ -10,7 +10,7 @@ a claim that any project is finished.
 ## Assets in this repository
 
 - [repository-dragon.svg](repository-dragon.svg): the scalable DragonForge icon, suitable for repository documentation and optional application packaging after review
-- [repositories.json](repositories.json): manifest covering the **37** repositories in the owner's GitHub inventory on 2026-10-18; accent colours and two-/three-character badges
+- [repositories.json](repositories.json): manifest covering **31 public** repositories in the owner's GitHub inventory on 2026-10-18; accent colours and two-/three-character badges
 - [DragonForge terminal theme](../../internal/tui/theme/dragonforge.go): selectable dark/light adaptive `dragonforge` theme; does not overwrite existing themes or change the default
 
 ## Design language
@@ -37,7 +37,7 @@ not change READMEs, upstream copyright notices, application logos, binaries,
 GitHub social previews, CI or runtime code. GitHub does not automatically set
 its repository avatar/social preview from an SVG committed into the source tree.
 
-A private repository without an initial commit is **not** initialized merely
+Private repository names are omitted from this public registry, even though their\nicon PRs may exist in those private repositories.\n\nA private repository without an initial commit is **not** initialized merely
 for this branding rollout. Existing private repositories remain private.
 
 ## Using a proposed icon in a repository README (optional)
