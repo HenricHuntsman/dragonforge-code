@@ -1,0 +1,17 @@
+name: DragonForge local-first labs
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  local-labs:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - name: Run launcher and synthetic N64 tests
+        run: bash dragonforge/tests/test-modes.sh
