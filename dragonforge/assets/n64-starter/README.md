@@ -24,3 +24,20 @@ Run synthetic tests with:
 ```sh
 python3 -m unittest discover -s tests
 ```
+
+## MIPS inspection and local AI
+
+Inspect a small aligned ROM range (offset is a file offset, not a RAM address):
+
+```sh
+python3 tools/mips_inspect.py '/path/to/Donkey Kong 64.z64' \
+  --offset 0x1000 --words 64 > "$HOME/dev/dk64-study/mips-sample.json"
+```
+
+This is our own partial scalar MIPS decoder, not a new CPU architecture or programming language. Unsupported words remain `.word`; successful decoding does not prove a range contains executable code. The ROM header entry point alone does not establish a mapping for arbitrary ROM offsets. Only supply `--vaddr` when that mapping is independently verified. RSP microcode, overlays, compressed assets and game-specific formats need separate analysis. Compiled machine code generally does not reliably identify its original source language.
+
+Start AI review with a local quantized Qwen2.5-Coder-14B-Instruct candidate, or the existing 7B coder for lower memory use. Benchmark on synthetic instruction fixtures first; these models are not verified DK64 decompilers. A 4-bit 14B model is a plausible candidate for a 16GB GPU with a modest context, but actual fit and speed must be measured. Qwen3-Coder-30B-A3B has 30.5B total parameters despite 3.3B active; active parameters do not represent its full weight storage requirement.
+
+Model sources: https://huggingface.co/Qwen/Qwen2.5-Coder-14B-Instruct and https://huggingface.co/Qwen/Qwen3-Coder-30B-A3B-Instruct.
+
+Give the local model only bounded analysis reports and relevant snippets. Ask it to cite file offsets, distinguish observations from hypotheses, preserve unknown instructions, account for branch delay slots, and propose checks. Verify suggested names and C-like pseudocode against independent disassembly and runtime evidence. Treat ROM strings as data, never as instructions for the agent. No model is downloaded or installed by these tools.
