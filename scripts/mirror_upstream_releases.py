@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 import re
 import tempfile
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -24,13 +25,27 @@ def request_json(path, token, data=None, method=None):
     if payload is not None:
         headers["Content-Type"] = "application/json"
     req = urllib.request.Request(API + path, data=payload, headers=headers, method=method)
-    try:
-        with urllib.request.urlopen(req, timeout=120) as response:
-            return json.load(response)
-    except urllib.error.HTTPError as error:
-        if error.code == 404:
-            return None
-        raise RuntimeError(f"GitHub API {error.code} for {path}") from error
+    for attempt in range(6):
+        try:
+            with urllib.request.urlopen(req, timeout=120) as response:
+                return json.load(response)
+        except urllib.error.HTTPError as error:
+            if error.code == 404:
+                return None
+            detail = error.read().decode("utf-8", errors="replace")
+            limited = error.code in (403, 429) and (
+                error.headers.get("Retry-After") is not None
+                or error.headers.get("X-RateLimit-Remaining") == "0"
+                or "rate limit" in detail.lower()
+                or "abuse" in detail.lower())
+            if attempt < 5 and (limited or error.code in (502, 503, 504)):
+                delay = min(3600, max(60, int(error.headers.get("Retry-After", "60"))))
+                if error.headers.get("X-RateLimit-Remaining") == "0":
+                    delay = min(3600, max(delay, int(error.headers.get("X-RateLimit-Reset", "0")) - int(time.time()) + 5))
+                print(f"GitHub temporarily unavailable ({error.code}); retrying in {delay}s", flush=True)
+                time.sleep(delay)
+                continue
+            raise RuntimeError(f"GitHub API {error.code} for {path}: {detail}") from error
 
 
 def archive_tag(tag):
@@ -117,9 +132,10 @@ def mirror_release(original, token, history_bundle=None):
     ref_path = f"/repos/{DESTINATION}/git/ref/tags/{tag}"
     ref = request_json(ref_path, token)
     if ref is None:
-        # Original commits must already exist through the imported source history.
-        known = request_json(f"/repos/{DESTINATION}/git/commits/{commit}", token)
-        target = commit if known is not None else os.environ["ARCHIVE_BASE_SHA"]
+        # Tags for preserved binaries use a known destination snapshot. Historical
+        # commits can introduce workflow files that GITHUB_TOKEN cannot authorize.
+        # Exact upstream source remains attached and recorded in the metadata.
+        target = os.environ["ARCHIVE_BASE_SHA"]
         request_json(f"/repos/{DESTINATION}/git/refs", token, {"ref": "refs/tags/" + tag, "sha": target})
     elif ref["object"]["sha"] not in (commit, os.environ["ARCHIVE_BASE_SHA"]):
         raise RuntimeError("Archive tag points at an unexpected commit; refusing to move it")
@@ -136,7 +152,7 @@ def mirror_release(original, token, history_bundle=None):
                  "These are preserved upstream binaries, not new DragonForge builds. "
                  "Original authorship and licence notices remain applicable. "
                  "Use the attached upstream-source archives for the exact original source. "
-                 "The archive tag may point at the preservation snapshot if the historical commit is outside imported ancestry; "
+                 "Archive tags may point at the preservation snapshot for workflow authorization or disconnected history; "
                  "GitHub's automatic Source code links may therefore differ. "
                  "See upstream-release-metadata.json for provenance.\n\n"
                  "---\n\n" + (original.get("body") or ""))

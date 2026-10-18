@@ -1,5 +1,6 @@
 import importlib.util
 import io
+import urllib.error
 import os
 from unittest.mock import patch
 from pathlib import Path
@@ -28,6 +29,23 @@ class ArchiveTests(unittest.TestCase):
             digest = mirror.verify_digest(p)
             self.assertEqual(mirror.verify_digest(p, 'sha256:' + digest), digest)
             with self.assertRaises(ValueError): mirror.verify_digest(p, '0' * 64)
+
+    def test_secondary_rate_limit_retries(self):
+        error = urllib.error.HTTPError('https://api.github.com/test', 403, 'Forbidden',
+                                       {'Retry-After': '60'}, io.BytesIO(b'{"message":"secondary rate limit"}'))
+        with patch.object(mirror.urllib.request, 'urlopen', side_effect=[error, io.BytesIO(b'{"ok":true}')]), \
+             patch.object(mirror.time, 'sleep') as sleep:
+            self.assertEqual(mirror.request_json('/test', 'token'), {'ok': True})
+            sleep.assert_called_once_with(60)
+
+    def test_permission_failure_reports_reason_without_retry(self):
+        error = urllib.error.HTTPError('https://api.github.com/test', 403, 'Forbidden',
+                                       {}, io.BytesIO(b'{"message":"workflow permission required"}'))
+        with patch.object(mirror.urllib.request, 'urlopen', side_effect=error), \
+             patch.object(mirror.time, 'sleep') as sleep:
+            with self.assertRaisesRegex(RuntimeError, 'workflow permission required'):
+                mirror.request_json('/test', 'token')
+            sleep.assert_not_called()
 
     def test_disconnected_source_uses_snapshot_and_attaches_exact_sources(self):
         release = {'id': 1, 'tag_name': 'v0.1.0', 'assets': [], 'prerelease': False,

@@ -3,9 +3,10 @@ name: Preserve historical upstream releases
 on:
   workflow_dispatch:
   push:
-    branches: [archive/upstream-releases]
+    branches: [main, archive/upstream-releases]
     paths:
       - .github/workflows/archive-upstream-releases.yml
+      - scripts/mirror_upstream_releases.py
 
 permissions:
   contents: write
