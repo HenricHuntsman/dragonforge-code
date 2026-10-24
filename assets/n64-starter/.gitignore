@@ -1,0 +1,9 @@
+# Do not commit runtime output or ROM images.
+__pycache__/
+*.py[cod]
+*.z64
+*.v64
+*.n64
+*.rom
+.env
+.env.*
